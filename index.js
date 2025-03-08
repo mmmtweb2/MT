@@ -502,4 +502,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
         lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
     });
+
+    // הוסף את הקוד הבא לקובץ script.js
+    document.addEventListener('DOMContentLoaded', function () {
+        const mobileMenuToggle = document.createElement('div');
+        mobileMenuToggle.className = 'mobile-menu-toggle';
+        mobileMenuToggle.innerHTML = '<span></span><span></span><span></span>';
+
+        const nav = document.querySelector('nav');
+        const navUl = document.querySelector('nav ul');
+
+        if (nav && navUl && window.innerWidth <= 768) {
+            nav.insertBefore(mobileMenuToggle, navUl);
+
+            mobileMenuToggle.addEventListener('click', function () {
+                this.classList.toggle('active');
+                navUl.classList.toggle('mobile-active');
+            });
+        }
+
+        // עדכן את החלונית הנפתחת בשינוי גודל המסך
+        window.addEventListener('resize', function () {
+            if (window.innerWidth <= 768) {
+                if (!document.querySelector('.mobile-menu-toggle')) {
+                    nav.insertBefore(mobileMenuToggle, navUl);
+                }
+            } else {
+                const toggle = document.querySelector('.mobile-menu-toggle');
+                if (toggle) {
+                    toggle.remove();
+                }
+                navUl.classList.remove('mobile-active');
+            }
+        });
+    });
+
 });

@@ -35,8 +35,6 @@
       <div class="cta-buttons">
         <a href="#contact" class="primary-btn">קבל הצעת מחיר</a>
         <a href="portfolio.html" class="secondary-btn">צפה בעבודות קודמות</a>
-        <div class="hero-image">
-          <img src="images/hero-image.svg" alt="פתרונות דיגיטליים">
         </div>
       </div>
     </div>
@@ -154,16 +152,71 @@
               </div>
               <div class="contact-text">+16465358055</div>
             </div>
-            <div class="contact-item">
-              <div class="contact-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="20" height="20" fill="none"/>
-                  <path d="M20.5 4.833H3.5V17.5H9.25V19.1667H14.75V17.5H20.5V4.833Z" fill="none" stroke="#2563EB" stroke-width="1.5" stroke-linejoin="round"/>
-                  <path d="M14.9998 9.16675C14.9998 9.16675 14.9998 7.50008 11.9998 7.50008C8.99984 7.50008 8.99984 9.16675 8.99984 9.16675" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <div class="contact-text">WhatsApp: +16465358055</div>
-            </div>
+
+                    <!-- תיקון כפתור וואטסאפ במספר הטלפון -->
+        <!-- החלף את קוד HTML הקיים של כפתור/קישור הוואטסאפ עם הקוד הבא -->
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+          <div class="contact-text">
+            <a href="https://wa.me/16465358055" target="_blank" class="whatsapp-link">
+              WhatsApp: PHONE_NUMBER_DISPLAY
+            </a>
+          </div>
+        </div>
+
+        <!-- הוסף את הסגנון הבא לקובץ CSS -->
+        <style>
+        .whatsapp-link {
+          color: var(--gray);
+          transition: var(--transition);
+          text-decoration: none;
+        }
+
+        .contact-item:hover .whatsapp-link {
+          color: var(--dark);
+        }
+
+        /* כדי להבטיח שהאייקון של וואטסאפ יופיע נכון */
+        .fab.fa-whatsapp {
+          color: #25D366; /* צבע וואטסאפ הרשמי */
+        }
+
+        .contact-item:hover .contact-icon .fab.fa-whatsapp {
+          color: white;
+        }
+        </style>
+
+        <!-- הוסף את הקוד JavaScript הבא כדי לוודא שהקישור נפתח בוואטסאפ ולא כמספר טלפון -->
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          // בדוק אם יש קישורי וואטסאפ בדף
+          const whatsappLinks = document.querySelectorAll('.whatsapp-link');
+          
+          whatsappLinks.forEach(link => {
+            // וודא שהקישור פותח את וואטסאפ במקום הטלפון
+            link.addEventListener('click', function(e) {
+              // אם זה מכשיר נייד, הקישור יעבוד כרגיל (יפתח את וואטסאפ)
+              if (!isMobile()) {
+                // אם זה מחשב שולחני, פתח את וואטסאפ ווב במקום
+                const phoneNumber = this.href.split('wa.me/')[1];
+                if (phoneNumber) {
+                  e.preventDefault();
+                  window.open(`https://web.whatsapp.com/send?phone=${phoneNumber}`, '_blank');
+                }
+              }
+            });
+          });
+          
+          // בדיקה אם המכשיר הוא נייד
+          function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+          }
+        });
+        </script>
+
             <div class="contact-item">
               <div class="contact-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
