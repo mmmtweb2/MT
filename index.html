@@ -4,16 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Made Tomorrow | פתרונות דיגיטליים למחר, היום</title>
+  <meta name="description" content="פתרונות דיגיטליים מקצועיים - דפי נחיתה ואתרים מעוצבים בקפידה שיקדמו את העסק שלך">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- הוספת EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
 
   <!-- Header -->  
-    <header>
+  <header>
     <div class="container header-container">
       <div class="logo">
         <div class="logo-mark">MT</div>
- <!--       <img src="images/logo.svg" alt=""> -->
         <div class="logo-text"><span>M</span>ade <span>T</span>omorrow</div>
       </div>
       <nav>
@@ -35,7 +38,6 @@
       <div class="cta-buttons">
         <a href="#contact" class="primary-btn">קבל הצעת מחיר</a>
         <a href="portfolio.html" class="secondary-btn">צפה בעבודות קודמות</a>
-        </div>
       </div>
     </div>
   </section>
@@ -73,38 +75,6 @@
       </div>
     </div>
   </section>
-
-  <!-- store -->
-   <!-- דוגמת קוד לחנות דיגיטלית מינימלית
-<section class="digital-store">
-  <div class="container">
-    <div class="section-header">
-      <h2>חנות דיגיטלית</h2>
-      <p>פתרונות מוכנים לשימוש מיידי במחירים נוחים</p>
-    </div>
-    
-    <div class="store-categories">
-      <button class="store-category-btn active" data-filter="all">הכל</button>
-      <button class="store-category-btn" data-filter="templates">תבניות</button>
-      <button class="store-category-btn" data-filter="components">קומפוננטות</button>
-      <button class="store-category-btn" data-filter="guides">מדריכים</button>
-    </div>
-    
-    <div class="store-grid">
-      <!-- מוצר לדוגמה -->
-    <!--  <div class="store-item" data-category="templates">
-        <div class="store-item-image">
-          <img src="/images/store/landing-template-business.jpg" alt="תבנית דף נחיתה לעסקים">
-          <div class="item-overlay">
-            <a href="store/index.html" class="view-item-btn">צפה בפרטים</a>
-          </div>
-          <span class="item-price">₪199</span>
-        </div>
-      </div>
-      <!-- עוד מוצרים -->
-    <!--</div>
-  </div>
-</section> -->
 
   <!-- Process Section -->
   <section class="process" id="process">
@@ -153,66 +123,16 @@
               <div class="contact-text">+16465358055</div>
             </div>
 
-        <div class="contact-item">
-          <div class="contact-icon">
-            <i class="fab fa-whatsapp"></i>
-          </div>
-          <div class="contact-text">
-            <a href="https://wa.me/16465358055" target="_blank" class="whatsapp-link">
-              WhatsApp: +16465358055
-            </a>
-          </div>
-        </div>
-
-        <!-- הוסף את הסגנון הבא לקובץ CSS -->
-        <style>
-        .whatsapp-link {
-          color: var(--gray);
-          transition: var(--transition);
-          text-decoration: none;
-        }
-
-        .contact-item:hover .whatsapp-link {
-          color: var(--dark);
-        }
-
-        /* כדי להבטיח שהאייקון של וואטסאפ יופיע נכון */
-        .fab.fa-whatsapp {
-          color: #25D366; /* צבע וואטסאפ הרשמי */
-        }
-
-        .contact-item:hover .contact-icon .fab.fa-whatsapp {
-          color: white;
-        }
-        </style>
-
-        <!-- הוסף את הקוד JavaScript הבא כדי לוודא שהקישור נפתח בוואטסאפ ולא כמספר טלפון -->
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          // בדוק אם יש קישורי וואטסאפ בדף
-          const whatsappLinks = document.querySelectorAll('.whatsapp-link');
-          
-          whatsappLinks.forEach(link => {
-            // וודא שהקישור פותח את וואטסאפ במקום הטלפון
-            link.addEventListener('click', function(e) {
-              // אם זה מכשיר נייד, הקישור יעבוד כרגיל (יפתח את וואטסאפ)
-              if (!isMobile()) {
-                // אם זה מחשב שולחני, פתח את וואטסאפ ווב במקום
-                const phoneNumber = this.href.split('wa.me/')[1];
-                if (phoneNumber) {
-                  e.preventDefault();
-                  window.open(`https://web.whatsapp.com/send?phone=${phoneNumber}`, '_blank');
-                }
-              }
-            });
-          });
-          
-          // בדיקה אם המכשיר הוא נייד
-          function isMobile() {
-            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-          }
-        });
-        </script>
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fab fa-whatsapp"></i>
+              </div>
+              <div class="contact-text">
+                <a href="https://wa.me/16465358055" target="_blank" class="whatsapp-link">
+                  WhatsApp: +16465358055
+                </a>
+              </div>
+            </div>
 
             <div class="contact-item">
               <div class="contact-icon">
@@ -226,7 +146,7 @@
           </div>
         </div>
         <div class="contact-form">
-          <form id="contactForm" action="https://formspree.io/f/mqkrvbqp" method="POST">
+          <form id="contactForm">
             <div class="form-group">
               <label for="name">שם מלא</label>
               <input type="text" id="name" name="name" placeholder="השם שלך" required>
@@ -276,22 +196,163 @@
           </nav>
         </div>
         <div class="footer-links">
-            <h4>קישורים מהירים</h4>
-            <nav class="footer-nav">
-              <ul>
-                <li><a href="#">עמוד הבית</a></li>
-                <li><a href="#services">שירותים</a></li>
-                <li><a href="#process">תהליך עבודה</a></li>
-                <li><a href="portfolio.html">תיק עבודות</a></li>
-                <li><a href="#contact">צור קשר</a></li>
-              </ul>
-            </nav>
-          </div>
+          <h4>קישורים מהירים</h4>
+          <nav class="footer-nav">
+            <ul>
+              <li><a href="#">עמוד הבית</a></li>
+              <li><a href="#services">שירותים</a></li>
+              <li><a href="#process">תהליך עבודה</a></li>
+              <li><a href="portfolio.html">תיק עבודות</a></li>
+              <li><a href="#contact">צור קשר</a></li>
+            </ul>
+          </nav>
+        </div>
       </div>
       <div class="copyright">
         <p>&copy; 2025 Made Tomorrow. כל הזכויות שמורות.</p>
       </div>
     </div>
   </footer>
+
+  <!-- Scripts -->
+  <script>
+    // מובייל מנו
+    document.addEventListener('DOMContentLoaded', function() {
+      // יצירת כפתור תפריט למובייל
+      const mobileMenuToggle = document.createElement('div');
+      mobileMenuToggle.className = 'mobile-menu-toggle';
+      mobileMenuToggle.innerHTML = '<span></span><span></span><span></span>';
+      
+      const nav = document.querySelector('nav');
+      const navUl = document.querySelector('nav ul');
+      
+      if (nav && navUl && window.innerWidth <= 768) {
+        nav.insertBefore(mobileMenuToggle, navUl);
+        
+        mobileMenuToggle.addEventListener('click', function() {
+          this.classList.toggle('active');
+          navUl.classList.toggle('mobile-active');
+        });
+      }
+      
+      // התאמת התפריט בשינוי גודל המסך
+      window.addEventListener('resize', function() {
+        if (window.innerWidth <= 768) {
+          if (!document.querySelector('.mobile-menu-toggle')) {
+            nav.insertBefore(mobileMenuToggle, navUl);
+          }
+        } else {
+          const toggle = document.querySelector('.mobile-menu-toggle');
+          if (toggle) {
+            toggle.remove();
+          }
+          navUl.classList.remove('mobile-active');
+        }
+      });
+
+      // טיפול בקישורי וואטסאפ
+      const whatsappLinks = document.querySelectorAll('.whatsapp-link');
+      
+      whatsappLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          if (!isMobile()) {
+            const phoneNumber = this.href.split('wa.me/')[1];
+            if (phoneNumber) {
+              e.preventDefault();
+              window.open(`https://web.whatsapp.com/send?phone=${phoneNumber}`, '_blank');
+            }
+          }
+        });
+      });
+      
+      function isMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      }
+
+      // הגדרת טופס EmailJS
+      (function() {
+        emailjs.init("Co6o2ZRzcxHVbsBE1");
+        
+        const contactForm = document.getElementById('contactForm');
+        
+        if (contactForm) {
+          contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // בדיקת תקינות הטופס
+            let isValid = true;
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const messageInput = document.getElementById('message');
+            
+            if (!nameInput.value.trim()) {
+              showError(nameInput, 'אנא הזן את שמך');
+              isValid = false;
+            }
+            
+            if (!emailInput.value.trim() || !isValidEmail(emailInput.value)) {
+              showError(emailInput, 'אנא הזן כתובת מייל תקינה');
+              isValid = false;
+            }
+            
+            if (!messageInput.value.trim()) {
+              showError(messageInput, 'אנא הזן הודעה');
+              isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // הצגת אינדיקציית טעינה
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> שולח...';
+            submitBtn.disabled = true;
+            
+            // שליחת הטופס
+            emailjs.sendForm('service_drdpzxo', 'template_wtxgrt9', contactForm)
+              .then(function() {
+                // הצלחה
+                alert('ההודעה נשלחה בהצלחה! נחזור אליך בהקדם.');
+                contactForm.reset();
+              }, function(error) {
+                // שגיאה
+                console.error('שגיאה בשליחת האימייל:', error);
+                alert('אירעה שגיאה בשליחת ההודעה. אנא נסה שנית או צור קשר ישירות בטלפון.');
+              })
+              .finally(function() {
+                // שחזור הכפתור למצבו המקורי
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+              });
+          });
+        }
+      })();
+
+      // פונקציות עזר
+      function showError(input, message) {
+        const formGroup = input.parentElement;
+        let errorDiv = formGroup.querySelector('.error-message');
+        
+        if (!errorDiv) {
+          errorDiv = document.createElement('div');
+          errorDiv.className = 'error-message';
+          formGroup.appendChild(errorDiv);
+        }
+        
+        errorDiv.textContent = message;
+        input.classList.add('input-error');
+        
+        input.addEventListener('input', function() {
+          errorDiv.textContent = '';
+          input.classList.remove('input-error');
+        }, { once: true });
+      }
+      
+      function isValidEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+      }
+    });
+  </script>
 </body>
 </html>
