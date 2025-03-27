@@ -1625,6 +1625,54 @@ nav li {
 }
 }
 
+/* סגנון לתיקון המבנה הכללי של המכלים */
+.process-tabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 20px; /* מרווח קבוע בין הטאבים */
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+/* סגנון לקלפים עצמם */
+.process-tab {
+  flex: 1;
+  max-width: 340px;
+  min-width: 280px;
+  height: 380px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.process-tab:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ספרור הצעדים */
+.step-number {
+  width: 70px;
+  height: 70px;
+  background: var(--vibrant-gradient);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 auto 20px;
+}
+
 /* תיקון לגלילת תוכן במובייל */
 @media (max-width: 480px) {
 .hero {
@@ -1634,4 +1682,21 @@ nav li {
 body {
   padding-top: 55px;
 }
+}
+
+@media (max-width: 992px) {
+  .process-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .process-tab {
+    flex: 0 0 calc(50% - 20px);
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .process-tab {
+    flex: 0 0 100%;
+  }
 }
