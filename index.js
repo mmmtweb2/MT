@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // 3. אפקט הופעה בגלילה
-    const revealElements = document.querySelectorAll('.services-grid > *, .process-steps > *, .contact-container > *, .section-header');
+    const revealElements = document.querySelectorAll('.services-grid > *, .process-steps > *, .contact-container > *, .section-header, .faq-container > *');
 
     // הוספת קלאס לאלמנטים שיופיעו בגלילה
     revealElements.forEach(element => {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('scroll', checkReveal);
 
     // 4. אפקט ריחוף לאייקונים
-    const floatElements = document.querySelectorAll('.service-icon, .step-number');
+    const floatElements = document.querySelectorAll('.service-icon, .step-number, .question-icon');
 
     floatElements.forEach(element => {
         element.classList.add('float');
@@ -198,11 +198,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // 10. אפקט המבורגר לתפריט במובייל
-    const addMobileMenu = function () {
+    // 10. טיפול מתוקן בתפריט המובייל - מאוחד לפונקציה אחת
+    function setupMobileMenu() {
         const nav = document.querySelector('nav');
         const navUl = document.querySelector('nav ul');
 
+        // בדיקה אם הדפדפן במצב מובייל ושאין כבר כפתור המבורגר
         if (window.innerWidth <= 768 && nav && !document.querySelector('.mobile-menu-toggle')) {
             // יצירת כפתור המבורגר
             const mobileToggle = document.createElement('div');
@@ -210,29 +211,99 @@ document.addEventListener('DOMContentLoaded', function () {
             mobileToggle.innerHTML = '<span></span><span></span><span></span>';
 
             nav.insertBefore(mobileToggle, navUl);
-
             navUl.classList.add('mobile-hidden');
 
+            // הוספת אירוע לחיצה לכפתור
             mobileToggle.addEventListener('click', function () {
                 mobileToggle.classList.toggle('active');
-                navUl.classList.toggle('mobile-hidden');
-                navUl.classList.toggle('mobile-visible');
+                navUl.classList.toggle('mobile-active');
             });
+        } else if (window.innerWidth > 768) {
+            // הסרת כפתור ההמבורגר והחזרת התצוגה הרגילה אם המסך גדול
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            if (toggle) {
+                toggle.remove();
+            }
+            if (navUl) {
+                navUl.classList.remove('mobile-hidden');
+                navUl.classList.remove('mobile-active');
+            }
         }
-    };
+    }
 
-    // הוספת כפתור צף לתיק העבודות
-    document.addEventListener('DOMContentLoaded', function () {
-        // בדיקה אם אנחנו נמצאים בעמוד תיק העבודות כדי לא להציג את הכפתור שם
-        if (window.location.href.indexOf('portfolio.html') === -1) {
-            // יצירת כפתור צף
-            const floatingButton = document.createElement('a');
-            floatingButton.className = 'floating-portfolio-btn';
-            floatingButton.href = 'portfolio.html';
-            floatingButton.setAttribute('title', 'צפה בתיק העבודות');
+    // הפעלת הפונקציה ברגע הטעינה
+    setupMobileMenu();
 
-            // הוספת אייקון לכפתור
-            floatingButton.innerHTML = `
+    // עדכון בשינוי גודל חלון
+    window.addEventListener('resize', setupMobileMenu);
+
+    // הוספת מעבר חלק לקישורים פנימיים
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href');
+
+            if (targetId !== '#') {
+                e.preventDefault();
+
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+
+                    // סגירת תפריט מובייל אם פתוח
+                    const mobileToggle = document.querySelector('.mobile-menu-toggle');
+                    const navUl = document.querySelector('nav ul');
+                    if (mobileToggle && mobileToggle.classList.contains('active')) {
+                        mobileToggle.classList.remove('active');
+                        navUl.classList.remove('mobile-active');
+                    }
+                }
+            }
+        });
+    });
+
+    // הדגשת הקישור הנוכחי בתפריט בהתאם למיקום בדף
+    function highlightActiveSection() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+        window.addEventListener('scroll', function () {
+            let current = '';
+            const scrollPosition = window.pageYOffset;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                const sectionHeight = section.offsetHeight;
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    current = '#' + section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    }
+
+    highlightActiveSection();
+
+    // הוספת כפתור צף לתיק העבודות (אם אנחנו לא נמצאים בעמוד תיק העבודות)
+    if (window.location.href.indexOf('portfolio.html') === -1) {
+        // יצירת כפתור צף
+        const floatingButton = document.createElement('a');
+        floatingButton.className = 'floating-portfolio-btn';
+        floatingButton.href = 'portfolio.html';
+        floatingButton.setAttribute('title', 'צפה בתיק העבודות');
+
+        // הוספת אייקון לכפתור
+        floatingButton.innerHTML = `
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
                 <line x1="8" y1="21" x2="16" y2="21"></line>
@@ -240,301 +311,33 @@ document.addEventListener('DOMContentLoaded', function () {
             </svg>
         `;
 
-            // הוספת תגית עם טיפ
-            const badge = document.createElement('span');
-            badge.className = 'portfolio-badge';
-            badge.textContent = 'צפה';
-            floatingButton.appendChild(badge);
+        // הוספת תגית עם טיפ
+        const badge = document.createElement('span');
+        badge.className = 'portfolio-badge';
+        badge.textContent = 'צפה';
+        floatingButton.appendChild(badge);
 
-            // הוספת הכפתור לגוף העמוד
-            document.body.appendChild(floatingButton);
+        // הוספת הכפתור לגוף העמוד
+        document.body.appendChild(floatingButton);
 
-            // אפקט הופעה של הכפתור אחרי גלילה מסוימת
-            window.addEventListener('scroll', function () {
-                if (window.pageYOffset > 300) {
-                    floatingButton.style.opacity = '1';
-                    floatingButton.style.transform = 'translateY(0)';
-                } else {
-                    floatingButton.style.opacity = '0';
-                    floatingButton.style.transform = 'translateY(20px)';
-                }
-            });
-
-            // אפקט הבהוב כל כמה זמן כדי למשוך תשומת לב
-            setInterval(function () {
-                badge.classList.add('pulse-effect');
-
-                setTimeout(function () {
-                    badge.classList.remove('pulse-effect');
-                }, 1000);
-            }, 5000);
-
-            // הוספת CSS נוסף עבור הכפתור
-            const style = document.createElement('style');
-            style.textContent = `
-            .floating-portfolio-btn {
-                position: fixed;
-                bottom: 30px;
-                right: 30px;
-                width: 60px;
-                height: 60px;
-                background: var(--vibrant-gradient);
-                background-size: 300% 300%;
-                animation: gradientShift 8s ease infinite;
-                color: white;
-                border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                box-shadow: var(--shadow-md);
-                z-index: 999;
-                transition: var(--transition);
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            
-            .floating-portfolio-btn:hover {
-                transform: scale(1.1) translateY(0) !important;
-                box-shadow: var(--glow-purple);
-            }
-            
-            .portfolio-badge {
-                position: absolute;
-                top: -8px;
-                right: -8px;
-                background: var(--accent);
-                color: white;
-                font-size: 0.7rem;
-                font-weight: bold;
-                padding: 2px 8px;
-                border-radius: 20px;
-                box-shadow: var(--shadow-sm);
-            }
-            
-            .pulse-effect {
-                animation: badgePulse 1s ease-in-out;
-            }
-            
-            @keyframes badgePulse {
-                0% { transform: scale(1); }
-                50% { transform: scale(1.3); }
-                100% { transform: scale(1); }
-            }
-        `;
-            document.head.appendChild(style);
-        }
-
-        // הוספת אפקט מעבר חלק לקישורים
-        const addSmoothScrolling = function () {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    const targetId = this.getAttribute('href');
-
-                    if (targetId !== '#') {
-                        e.preventDefault();
-
-                        const targetElement = document.querySelector(targetId);
-
-                        if (targetElement) {
-                            window.scrollTo({
-                                top: targetElement.offsetTop - 100,
-                                behavior: 'smooth'
-                            });
-                        }
-                    }
-                });
-            });
-        };
-
-        addSmoothScrolling();
-
-        // הדגשת הקישור הנוכחי בתפריט בהתאם למיקום בדף
-        const highlightActiveSection = function () {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('nav a[href^="#"]');
-
-            window.addEventListener('scroll', function () {
-                let current = '';
-                const scrollPosition = window.pageYOffset;
-
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop - 150;
-                    const sectionHeight = section.offsetHeight;
-
-                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                        current = '#' + section.getAttribute('id');
-                    }
-                });
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === current) {
-                        link.classList.add('active');
-                    }
-                });
-            });
-        };
-
-        highlightActiveSection();
-    });
-
-    // הוספת עיצוב CSS נוסף עבור תפריט מובייל
-    const addMobileStyles = function () {
-        if (!document.getElementById('mobile-menu-styles')) {
-            const mobileStyles = document.createElement('style');
-            mobileStyles.id = 'mobile-menu-styles';
-            mobileStyles.textContent = `
-                @media (max-width: 768px) {
-                    .mobile-menu-toggle {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        width: 30px;
-                        height: 20px;
-                        cursor: pointer;
-                        z-index: 1000;
-                        position: absolute;
-                        top: 20px;
-                        right: 20px;
-                    }
-                    
-                    .mobile-menu-toggle span {
-                        display: block;
-                        width: 100%;
-                        height: 3px;
-                        background: var(--primary);
-                        border-radius: 3px;
-                        transition: var(--transition);
-                    }
-                    
-                    .mobile-menu-toggle.active span:nth-child(1) {
-                        transform: translateY(8px) rotate(45deg);
-                    }
-                    
-                    .mobile-menu-toggle.active span:nth-child(2) {
-                        opacity: 0;
-                    }
-                    
-                    .mobile-menu-toggle.active span:nth-child(3) {
-                        transform: translateY(-8px) rotate(-45deg);
-                    }
-                    
-                    .mobile-hidden {
-                        opacity: 0;
-                        visibility: hidden;
-                        transform: translateY(-20px);
-                        transition: var(--transition);
-                    }
-                    
-                    .mobile-visible {
-                        opacity: 1;
-                        visibility: visible;
-                        transform: translateY(0);
-                    }
-                    
-                    .header-container {
-                        position: relative;
-                    }
-                    
-                    nav ul {
-                        position: absolute;
-                        top: 100%;
-                        left: 0;
-                        width: 100%;
-                        background: white;
-                        box-shadow: var(--shadow-md);
-                        border-radius: 0 0 10px 10px;
-                        padding: 20px 0;
-                        z-index: 999;
-                    }
-                    
-                    .shake {
-                        animation: shake 0.5s ease-in-out;
-                    }
-                    
-                    .success-pulse {
-                        animation: successPulse 1s ease-in-out;
-                    }
-                    
-                    .input-success {
-                        border-color: #10b981 !important;
-                        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1) !important;
-                    }
-                    
-                    @keyframes shake {
-                        0%, 100% { transform: translateX(0); }
-                        20%, 60% { transform: translateX(-10px); }
-                        40%, 80% { transform: translateX(10px); }
-                    }
-                    
-                    @keyframes successPulse {
-                        0%, 100% { box-shadow: 0 0 0 rgba(16, 185, 129, 0); }
-                        50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
-                    }
-                }
-            `;
-            document.head.appendChild(mobileStyles);
-        }
-    };
-
-    addMobileStyles();
-    addMobileMenu();
-
-    // עדכון בשינוי גודל חלון
-    window.addEventListener('resize', addMobileMenu);
-
-    // 11. אפקט לצבעוניות בסקרול העמוד
-    let lastScrollTop = 0;
-
-    window.addEventListener('scroll', function () {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-        // שינוי קלאסים בהתאם לכיוון הגלילה
-        if (scrollTop > lastScrollTop) {
-            // גלילה למטה
-            document.body.classList.add('scroll-down');
-            document.body.classList.remove('scroll-up');
-        } else {
-            // גלילה למעלה
-            document.body.classList.add('scroll-up');
-            document.body.classList.remove('scroll-down');
-        }
-
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-    });
-
-    // הוסף את הקוד הבא לקובץ script.js
-    document.addEventListener('DOMContentLoaded', function () {
-        const mobileMenuToggle = document.createElement('div');
-        mobileMenuToggle.className = 'mobile-menu-toggle';
-        mobileMenuToggle.innerHTML = '<span></span><span></span><span></span>';
-
-        const nav = document.querySelector('nav');
-        const navUl = document.querySelector('nav ul');
-
-        if (nav && navUl && window.innerWidth <= 768) {
-            nav.insertBefore(mobileMenuToggle, navUl);
-
-            mobileMenuToggle.addEventListener('click', function () {
-                this.classList.toggle('active');
-                navUl.classList.toggle('mobile-active');
-            });
-        }
-
-        // עדכן את החלונית הנפתחת בשינוי גודל המסך
-        window.addEventListener('resize', function () {
-            if (window.innerWidth <= 768) {
-                if (!document.querySelector('.mobile-menu-toggle')) {
-                    nav.insertBefore(mobileMenuToggle, navUl);
-                }
+        // אפקט הופעה של הכפתור אחרי גלילה מסוימת
+        window.addEventListener('scroll', function () {
+            if (window.pageYOffset > 300) {
+                floatingButton.style.opacity = '1';
+                floatingButton.style.transform = 'translateY(0)';
             } else {
-                const toggle = document.querySelector('.mobile-menu-toggle');
-                if (toggle) {
-                    toggle.remove();
-                }
-                navUl.classList.remove('mobile-active');
+                floatingButton.style.opacity = '0';
+                floatingButton.style.transform = 'translateY(20px)';
             }
         });
-    });
 
+        // אפקט הבהוב כל כמה זמן כדי למשוך תשומת לב
+        setInterval(function () {
+            badge.classList.add('pulse-effect');
+
+            setTimeout(function () {
+                badge.classList.remove('pulse-effect');
+            }, 1000);
+        }, 5000);
+    }
 });
